@@ -11,4 +11,7 @@ userRouter.patch("/:id", authentication, Controller.update);
 userRouter.patch("/password/:id", authentication, Controller.updatePassword);
 userRouter.delete("/:id", authentication, Controller.delete);
 
+userRouter.post("/requestReset", Controller.requestResetPassword);
+userRouter.patch("/resetPassword/:token", Controller.resetPassword);
+
 module.exports = userRouter;

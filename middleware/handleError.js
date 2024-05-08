@@ -36,6 +36,9 @@ const handleError = (err, req, res, next) => {
   } else if (err.name === "Stock Product Tidak Cukup") {
     code = 400;
     message = `Stock Product Tidak Cukup, Sisa ${err.sisa} dari jumlah pesanan ${err.pesan}`;
+  } else if (err.name === "Email Tidak Terdaftar") {
+    code = 400;
+    message = "Email Tidak Terdaftar";
   }
 
   // 404

@@ -3,6 +3,7 @@ const {
   createAccessToken,
   comparePassword,
   hashingPassword,
+  verifyAccessToken,
 } = require("../helper/helper");
 
 const { Op } = require("sequelize");
@@ -200,7 +201,76 @@ class Controller {
     }
   }
 
-  // UPDATE
+  // PERMINTAAN RESET PASSWORD
+  static async requestResetPassword(req, res, next) {
+    try {
+      const { email } = req.body;
+
+      const dataUser = await User.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (!dataUser) {
+        throw { name: "Email Tidak Terdaftar" };
+      }
+
+      // CREATE PAYLOAD
+      const payload = {
+        email: dataUser.email,
+      };
+
+      const authorization = createAccessToken(payload);
+
+      // disini harusnya mengirimkan link ke email langsung, supaya ketika di clik
+      // langsung redirect ke halaman untuk reset password
+      // anggap aja link Frontend nya http://localhost:3000/resetPassword/:token
+
+      res.status(200).json({
+        statusCode: 200,
+        message: "Berhasil Membuat Link Permintaan Reset Password",
+        link: `http://localhost:3000/user/resetPassword/${authorization}`,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // RESET PASSWORD
+  static async resetPassword(req, res, next) {
+    try {
+      const { newPassword } = req.body;
+      const { token } = req.params;
+      // disini kita ambil token nya sebagai parameter seperti contoh link di atas
+
+      // dan kita verify token nya apakah sesuai dengan email nya apa tidak
+      let payload = verifyAccessToken(token);
+
+      let dataUser = await User.findOne({
+        where: {
+          email: payload.email,
+        },
+      });
+
+      if (!dataUser) {
+        throw { name: "Invalid authorization" };
+      }
+
+      await User.update(
+        { password: hashingPassword(newPassword) },
+        { where: { id: dataUser.id } }
+      );
+      res.status(200).json({
+        statusCode: 200,
+        message: "Berhasil Reset Password",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // UPDATE PASSWORD
   static async updatePassword(req, res, next) {
     try {
       const { id } = req.params;
