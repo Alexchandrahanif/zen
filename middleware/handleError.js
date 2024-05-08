@@ -30,33 +30,21 @@ const handleError = (err, req, res, next) => {
   } else if (err.name === "Email Sudah Terdaftar") {
     code = 400;
     message = "Email Sudah Terdaftar";
-  } else if (err.name === "Mohon Masukkan Nomor Telepon") {
+  } else if (err.name === "Code Product Telah Terdaftar") {
     code = 400;
-    message = "Mohon Masukkan Nomor Telepon";
-  } else if (err.name === "Nomor Telepon Tidak Terdaftar") {
+    message = "Code Product Telah Terdaftar";
+  } else if (err.name === "Stock Product Tidak Cukup") {
     code = 400;
-    message = "Nomor Telepon Tidak Terdaftar";
-  } else if (err.name === "Nomor Telepon Sudah Terdaftar") {
-    code = 400;
-    message = "Nomor Telepon Sudah Terdaftar";
-  } else if (err.name === "Konfirmasi Password Tidak Cocok") {
-    code = 400;
-    message = "Konfirmasi Password Tidak Cocok";
-  } else if (err.name === `Stok Tersedia Kurang Dari`) {
-    code = 400;
-    message = `Stok Tersedia Kurang Dari ${err.stok}, tersisa ${err.sisa}`;
-  } else if (err.name === "Nomor Telepon Minimal 8 Angka") {
-    code = 400;
-    message = "Nomor Telepon Minimal 8 Angka";
-  } else if (err.name === "Nomor Telepon Maksimal 16 Angka") {
-    code = 400;
-    message = "Nomor Telepon Maksimal 16 Angka";
+    message = `Stock Product Tidak Cukup, Sisa ${err.sisa} dari jumlah pesanan ${err.pesan}`;
   }
 
   // 404
   else if (err.name === "Id User Tidak Ditemukan") {
     code = 404;
     message = "Id User Tidak Ditemukan";
+  } else if (err.name === "Id Customer Tidak Ditemukan") {
+    code = 404;
+    message = "Id Customer Tidak Ditemukan";
   } else if (err.name === "Id Product Tidak Ditemukan") {
     code = 404;
     message = "Id Product Tidak Ditemukan";

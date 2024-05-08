@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { hashingPassword } = require("../helper/helper");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -10,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      nama: DataTypes.STRING,
+      name: DataTypes.STRING,
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -50,5 +51,8 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
+  User.beforeCreate((data) => {
+    data.password = hashingPassword(data.password);
+  });
   return User;
 };

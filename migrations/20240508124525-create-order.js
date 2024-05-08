@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       UserId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "Users",
           key: "id",
@@ -19,7 +19,7 @@ module.exports = {
         onUpdate: "cascade",
       },
       ProductId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "Products",
           key: "id",
@@ -28,9 +28,9 @@ module.exports = {
         onUpdate: "cascade",
       },
       CustomerId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
-          model: "Customer",
+          model: "Customers",
           key: "id",
         },
         onDelete: "cascade",
@@ -38,6 +38,9 @@ module.exports = {
       },
       quantity: {
         type: Sequelize.INTEGER,
+      },
+      status: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
